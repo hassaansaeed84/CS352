@@ -18,8 +18,8 @@ class PartialHTTP1Server extends Thread {
 		System.out.println("Listening for connection on port" + port);
 		while(true){
 			Socket connect = server.accept();
-			BufferedReader fromClient = new BufferedReader(newInputStreamReader(connect.getInputStream()));
-			DataOutputStream toClient = new DataOutputStream(connectionSocket.getOuptuStream());
+			BufferedReader fromClient = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+			DataOutputStream toClient = new DataOutputStream(connect.getOutputStream());
 			if(threads.get(0).isAlive()== false)      {threads.get(0).start();}
 			else if(threads.get(1).isAlive()== false) {threads.get(1).start();}
 			else if(threads.get(2).isAlive()== false) {threads.get(2).start();}
