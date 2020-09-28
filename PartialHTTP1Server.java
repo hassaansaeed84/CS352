@@ -1,36 +1,37 @@
 import java.io.*;
 import java.net.*;
-import java.util.concurrent.Executors;
-
-class Threads extends Thread{
+import java.util.ArrayList;
+import java.util.concurrent.*;
+class PartialHTTP1Server extends Thread {
 	public void run() {
-		/* This is where threads will communicate with clients*/
 		
 	}
-}
-class TCPServer {
 	
-	public static void main (String argv[]) throws Exception
+	public static void main (String[] args) throws Exception
 	{
-		String error = "503 service Unavailable";
-		
+		ArrayList<Thread> threads = new ArrayList<Thread>();
+		for(int i=0;i<6;i++) {
+			threads.add(new Thread());
+		}
 		int port = Integer.parseInt(args[0]);
-		int thread_count=0;
-		ServerSocket s  = new ServerSocket(port);
-		ExecutorService pool = new ExecutorService();
-		pool = Executors.newFixedThreadPool(5);
-		while(true) { // Make sure not more than 50 threads running already
-			if(thread_count>50) {
-				//Creates Output stream of socket
-				DataOutputStream toClient = new DataOutputStream(connect.getOutputStream())	
-				toClient.writeBytes(error); //Write out "503 Service Unavailable" to client
-				s.close(); // Immediately close
+		ServerSocket server = new ServerSocket(port);
+		System.out.println("Listening for connection on port" + port);
+		while(true){
+			Socket connect = server.accept();
+			BufferedReader fromClient = new BufferedReader(newInputStreamReader(connect.getInputStream()));
+			DataOutputStream toClient = new DataOutputStream(connectionSocket.getOuptuStream());
+			if(threads.get(0).isAlive()== false)      {threads.get(0).start();}
+			else if(threads.get(1).isAlive()== false) {threads.get(1).start();}
+			else if(threads.get(2).isAlive()== false) {threads.get(2).start();}
+			else if(threads.get(3).isAlive()== false) {threads.get(3).start();}
+			else if(threads.get(4).isAlive()== false) {threads.get(4).start();}
+			else if(threads.size()<=50) {
+				Thread temp = new Thread();
+				threads.add(temp);
+				temp.start();
 			}
-				Socket connect = s.accept();
-				Threads temp = new Thread (); //Constructor
-				temp.start(); //Starts new thread in run method
-				thread_count++; // Increments number of threads running 
-			}
-		//	BufferedReader fromClient = new BufferedReader (new InputStreamReader(connect.getInputStream()))
+			else{ toClient.writeBytes("505 Service Unavailable and terminate connection");}
+		}
+		
 	}
 }
